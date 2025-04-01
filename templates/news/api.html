@@ -1,0 +1,569 @@
+{% extends 'news/base.html' %}
+{% load static %}
+
+{% block title %}API Documentation - Newzy{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3">
+            <div class="api-sidebar position-sticky" style="top: 2rem;">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="mb-3 border-bottom pb-2">API Documentation</h5>
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link active" id="overview-tab" data-bs-toggle="pill" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
+                            <a class="nav-link" id="authentication-tab" data-bs-toggle="pill" href="#authentication" role="tab" aria-controls="authentication" aria-selected="false">Authentication</a>
+                            <a class="nav-link" id="endpoints-tab" data-bs-toggle="pill" href="#endpoints" role="tab" aria-controls="endpoints" aria-selected="false">Endpoints</a>
+                            <a class="nav-link" id="errors-tab" data-bs-toggle="pill" href="#errors" role="tab" aria-controls="errors" aria-selected="false">Error Handling</a>
+                            <a class="nav-link" id="examples-tab" data-bs-toggle="pill" href="#examples" role="tab" aria-controls="examples" aria-selected="false">Code Examples</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            <div class="card shadow-sm">
+                <div class="card-body p-lg-5">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <!-- Overview -->
+                        <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                            <h2>Newzy API Overview</h2>
+                            <p class="lead">Integrate intelligent news aggregation into your applications</p>
+                            
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i> The Newzy API is RESTful and returns data in JSON format. All endpoints are available over HTTPS.
+                            </div>
+                            
+                            <h4 class="mt-4">Base URL</h4>
+                            <div class="bg-light p-3 rounded mb-4">
+                                <code>https://api.newzy.com/v1</code>
+                            </div>
+                            
+                            <h4 class="mt-4">API Features</h4>
+                            <ul>
+                                <li><strong>News Search</strong> - Search for news articles by topic, location, and language</li>
+                                <li><strong>Article Summarization</strong> - Generate concise summaries of news content</li>
+                                <li><strong>Translation</strong> - Translate news content into different languages</li>
+                                <li><strong>Publishing</strong> - Create and publish news roundups to various platforms</li>
+                            </ul>
+                            
+                            <h4 class="mt-4">Rate Limits</h4>
+                            <p>To ensure fair usage, the API enforces the following rate limits:</p>
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Plan</th>
+                                        <th>Rate Limit</th>
+                                        <th>Daily Quota</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Free</td>
+                                        <td>10 requests per minute</td>
+                                        <td>500 requests per day</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Premium</td>
+                                        <td>60 requests per minute</td>
+                                        <td>5,000 requests per day</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Enterprise</td>
+                                        <td>Custom</td>
+                                        <td>Custom</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Authentication -->
+                        <div class="tab-pane fade" id="authentication" role="tabpanel" aria-labelledby="authentication-tab">
+                            <h2>Authentication</h2>
+                            <p class="lead">Secure your API requests</p>
+                            
+                            <h4 class="mt-4">API Key</h4>
+                            <p>All API requests require an API key for authentication. To obtain an API key, please contact <a href="mailto:kiccha1703@gmail.com">kiccha1703@gmail.com</a>.</p>
+                            
+                            <h5 class="mt-4">Using Your API Key</h5>
+                            <p>Include your API key in the headers of all requests:</p>
+                            <div class="bg-light p-3 rounded mb-4">
+<pre><code>GET /v1/search?query=climate+change HTTP/1.1
+Host: api.newzy.com
+X-API-Key: your_api_key_here
+</code></pre>
+                            </div>
+                            
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i> Keep your API key secure! Do not share it publicly or include it in client-side code.
+                            </div>
+                            
+                            <h4 class="mt-4">OAuth2 Authentication</h4>
+                            <p>For advanced integrations requiring user-specific data, OAuth2 authentication is available. This allows users to authorize your application to access their data without sharing their credentials.</p>
+                            
+                            <h5 class="mt-4">OAuth2 Flow</h5>
+                            <ol>
+                                <li>Register your application to obtain a client ID and secret</li>
+                                <li>Redirect users to our authorization URL</li>
+                                <li>Users grant permissions to your application</li>
+                                <li>Receive an authorization code</li>
+                                <li>Exchange the code for an access token</li>
+                                <li>Use the access token to make API requests</li>
+                            </ol>
+                            
+                            <p>For detailed implementation guidance, please refer to our <a href="#">OAuth2 Integration Guide</a>.</p>
+                        </div>
+                        
+                        <!-- Endpoints -->
+                        <div class="tab-pane fade" id="endpoints" role="tabpanel" aria-labelledby="endpoints-tab">
+                            <h2>API Endpoints</h2>
+                            <p class="lead">Complete reference for all available API endpoints</p>
+                            
+                            <!-- Search Endpoint -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <span class="badge bg-success me-2">GET</span> <code>/v1/search</code>
+                                </div>
+                                <div class="card-body">
+                                    <h5>Search News Articles</h5>
+                                    <p>Search for news articles based on various criteria.</p>
+                                    
+                                    <h6 class="mt-3">Query Parameters:</h6>
+                                    <table class="table table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Parameter</th>
+                                                <th>Type</th>
+                                                <th>Required</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>query</code></td>
+                                                <td>string</td>
+                                                <td>Yes</td>
+                                                <td>Search topic or keywords</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>location</code></td>
+                                                <td>string</td>
+                                                <td>No</td>
+                                                <td>Geographic location for news</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>language</code></td>
+                                                <td>string</td>
+                                                <td>No</td>
+                                                <td>Two-letter language code (default: en)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>time_period</code></td>
+                                                <td>string</td>
+                                                <td>No</td>
+                                                <td>Time range: d (day), w (week), m (month), y (year)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>sort</code></td>
+                                                <td>string</td>
+                                                <td>No</td>
+                                                <td>Sort order: relevance, date, popularity</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>limit</code></td>
+                                                <td>integer</td>
+                                                <td>No</td>
+                                                <td>Number of results to return (default: 10, max: 50)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    
+                                    <h6 class="mt-3">Example Response:</h6>
+                                    <div class="bg-light p-3 rounded">
+<pre><code>{
+  "status": "success",
+  "count": 10,
+  "total": 1245,
+  "articles": [
+    {
+      "id": "a123456",
+      "title": "New Climate Policy Announced",
+      "summary": "The government has announced a new policy to address climate change...",
+      "url": "https://example.com/news/climate-policy",
+      "source": "Example News",
+      "published_at": "2025-03-28T12:34:56Z",
+      "language": "en"
+    },
+    // More articles...
+  ]
+}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Article Endpoint -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <span class="badge bg-success me-2">GET</span> <code>/v1/articles/{article_id}</code>
+                                </div>
+                                <div class="card-body">
+                                    <h5>Get Article Details</h5>
+                                    <p>Retrieve detailed information about a specific news article.</p>
+                                    
+                                    <h6 class="mt-3">Path Parameters:</h6>
+                                    <table class="table table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Parameter</th>
+                                                <th>Type</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>article_id</code></td>
+                                                <td>string</td>
+                                                <td>Unique identifier for the article</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <!-- Summarize Endpoint -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <span class="badge bg-primary me-2">POST</span> <code>/v1/summarize</code>
+                                </div>
+                                <div class="card-body">
+                                    <h5>Summarize Text or URL</h5>
+                                    <p>Generate a concise summary of a news article or text content.</p>
+                                    
+                                    <h6 class="mt-3">Request Body:</h6>
+                                    <table class="table table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Parameter</th>
+                                                <th>Type</th>
+                                                <th>Required</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>url</code></td>
+                                                <td>string</td>
+                                                <td>No*</td>
+                                                <td>URL of the article to summarize</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>text</code></td>
+                                                <td>string</td>
+                                                <td>No*</td>
+                                                <td>Raw text content to summarize</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>length</code></td>
+                                                <td>string</td>
+                                                <td>No</td>
+                                                <td>Summary length: short, medium, long (default: medium)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p>* Either <code>url</code> or <code>text</code> must be provided</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Publish Endpoint -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <span class="badge bg-primary me-2">POST</span> <code>/v1/publish</code>
+                                </div>
+                                <div class="card-body">
+                                    <h5>Publish News Roundup</h5>
+                                    <p>Create and publish a news roundup based on a collection of articles.</p>
+                                    
+                                    <h6 class="mt-3">Request Body:</h6>
+                                    <table class="table table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Parameter</th>
+                                                <th>Type</th>
+                                                <th>Required</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>title</code></td>
+                                                <td>string</td>
+                                                <td>Yes</td>
+                                                <td>Title for the roundup</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>description</code></td>
+                                                <td>string</td>
+                                                <td>No</td>
+                                                <td>Description or introduction for the roundup</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>article_ids</code></td>
+                                                <td>array</td>
+                                                <td>Yes</td>
+                                                <td>Array of article IDs to include in the roundup</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>platform</code></td>
+                                                <td>string</td>
+                                                <td>Yes</td>
+                                                <td>Publishing platform: hashnode, medium, dev</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Error Handling -->
+                        <div class="tab-pane fade" id="errors" role="tabpanel" aria-labelledby="errors-tab">
+                            <h2>Error Handling</h2>
+                            <p class="lead">Understanding API error responses</p>
+                            
+                            <h4 class="mt-4">Error Format</h4>
+                            <p>When an error occurs, the API returns a JSON response with an error message and details:</p>
+                            <div class="bg-light p-3 rounded mb-4">
+<pre><code>{
+  "status": "error",
+  "error": {
+    "code": "invalid_request",
+    "message": "Missing required parameter: query",
+    "details": "The search endpoint requires a query parameter"
+  }
+}</code></pre>
+                            </div>
+                            
+                            <h4 class="mt-4">HTTP Status Codes</h4>
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Status Code</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>200 OK</td>
+                                        <td>Request was successful</td>
+                                    </tr>
+                                    <tr>
+                                        <td>400 Bad Request</td>
+                                        <td>Invalid request parameters</td>
+                                    </tr>
+                                    <tr>
+                                        <td>401 Unauthorized</td>
+                                        <td>Authentication failed or missing API key</td>
+                                    </tr>
+                                    <tr>
+                                        <td>403 Forbidden</td>
+                                        <td>API key valid but insufficient permissions</td>
+                                    </tr>
+                                    <tr>
+                                        <td>404 Not Found</td>
+                                        <td>Resource not found</td>
+                                    </tr>
+                                    <tr>
+                                        <td>429 Too Many Requests</td>
+                                        <td>Rate limit exceeded</td>
+                                    </tr>
+                                    <tr>
+                                        <td>500 Internal Server Error</td>
+                                        <td>Server-side error occurred</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h4 class="mt-4">Common Error Codes</h4>
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Error Code</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>invalid_request</code></td>
+                                        <td>Request is missing required parameters or contains invalid values</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>authentication_failed</code></td>
+                                        <td>The provided API key is invalid or expired</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>rate_limit_exceeded</code></td>
+                                        <td>You've exceeded your rate limit for API requests</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>resource_not_found</code></td>
+                                        <td>The requested resource could not be found</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>service_unavailable</code></td>
+                                        <td>The service is temporarily unavailable</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Code Examples -->
+                        <div class="tab-pane fade" id="examples" role="tabpanel" aria-labelledby="examples-tab">
+                            <h2>Code Examples</h2>
+                            <p class="lead">Integration examples in various programming languages</p>
+                            
+                            <!-- Python Example -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Python</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Example of searching for news articles in Python:</p>
+                                    <div class="bg-light p-3 rounded">
+<pre><code>import requests
+
+def search_news(api_key, query, location=None, language="en"):
+    url = "https://api.newzy.com/v1/search"
+    headers = {
+        "X-API-Key": api_key
+    }
+    params = {
+        "query": query,
+        "language": language
+    }
+    
+    if location:
+        params["location"] = location
+    
+    response = requests.get(url, headers=headers, params=params)
+    
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print(f"Error: {response.status_code}")
+        print(response.text)
+        return None
+
+# Example usage
+api_key = "your_api_key_here"
+results = search_news(api_key, "climate change", location="United States")
+if results:
+    for article in results["articles"]:
+        print(f"Title: {article['title']}")
+        print(f"Summary: {article['summary']}")
+        print(f"Source: {article['source']}")
+        print("---")</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- JavaScript Example -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">JavaScript</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Example of searching for news articles in JavaScript:</p>
+                                    <div class="bg-light p-3 rounded">
+<pre><code>async function searchNews(apiKey, query, options = {}) {
+  const { location, language = 'en', timePeriod, limit } = options;
+  
+  const params = new URLSearchParams({
+    query,
+    language
+  });
+  
+  if (location) params.append('location', location);
+  if (timePeriod) params.append('time_period', timePeriod);
+  if (limit) params.append('limit', limit);
+  
+  try {
+    const response = await fetch(
+      `https://api.newzy.com/v1/search?${params.toString()}`,
+      {
+        headers: {
+          'X-API-Key': apiKey
+        }
+      }
+    );
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching news:', error);
+    return null;
+  }
+}
+
+// Example usage
+const apiKey = 'your_api_key_here';
+searchNews(apiKey, 'climate change', { location: 'United States' })
+  .then(data => {
+    if (data) {
+      data.articles.forEach(article => {
+        console.log(`Title: ${article.title}`);
+        console.log(`Summary: ${article.summary}`);
+        console.log(`Source: ${article.source}`);
+        console.log('---');
+      });
+    }
+  });</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.api-sidebar .nav-link {
+    border-radius: 0.25rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    color: #495057;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.api-sidebar .nav-link:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: #6366f1;
+}
+
+.api-sidebar .nav-link.active {
+    background-color: #6366f1;
+    color: white;
+}
+
+code {
+    background-color: #f8f9fa;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    color: #6366f1;
+}
+
+.badge {
+    font-weight: 500;
+    font-size: 0.75rem;
+}
+</style>
+{% endblock %}

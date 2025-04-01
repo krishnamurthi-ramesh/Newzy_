@@ -1,0 +1,231 @@
+{% extends 'news/base.html' %}
+{% load news_extras %}
+{% load static %}
+
+{% block title %}SmartScrapAI - Fast, Reliable, Personalized News{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero text-center">
+    <div class="container">
+        <h1 data-aos="fade-up">SmartScrapAI - Intelligent News Aggregation</h1>
+        <p data-aos="fade-up" data-aos-delay="200">Get the latest news on any topic, beautifully summarized and organized.</p>
+        <a href="#search-section" class="btn btn-primary pulse" data-aos="fade-up" data-aos-delay="400">Start Searching</a>
+    </div>
+</section>
+
+<!-- Search Section -->
+<section id="search-section" class="py-5">
+    <div class="container">
+        <div class="search-container" data-aos="fade-up">
+            <h2>Search for News Topics</h2>
+            <form method="get" class="search-form">
+                <div class="row g-3">
+                    <div class="col-md-5">
+                        <label for="query" class="form-label">News Topic</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <input type="text" class="form-control" id="query" name="query" placeholder="Enter a topic to search..." required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="location" class="form-label">Location (Optional)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                            <input type="text" class="form-control" id="location" name="location" placeholder="Specific location...">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="language" class="form-label">Display Language</label>
+                        <select class="form-control" id="language" name="language">
+                            {% for code, lang in languages.items %}
+                            <option value="{{ code }}"{% if code == 'en' %} selected{% endif %}>{{ lang }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-search me-2"></i> Search News
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="feature-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-5" data-aos="fade-up">Intelligent News Aggregation</h2>
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Smart Searching</h3>
+                    <p>Find the most relevant and recent news articles on any topic from around the web.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI-Powered Summarization</h3>
+                    <p>Let our advanced AI summarize lengthy articles into concise, easy-to-digest summaries.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>Multilingual Support</h3>
+                    <p>Break language barriers with automatic translation into 10 major world languages.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5" data-aos="fade-up">How It Works</h2>
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-4" data-aos="fade-right">
+                <div class="step-card p-4 bg-white rounded-lg shadow-sm">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="step-number me-3">1</div>
+                        <h3 class="mb-0">Search for News</h3>
+                    </div>
+                    <p>Enter any topic you're interested in, optionally specify a location, and select your preferred language.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4" data-aos="fade-left">
+                <div class="step-card p-4 bg-white rounded-lg shadow-sm">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="step-number me-3">2</div>
+                        <h3 class="mb-0">AI Processing</h3>
+                    </div>
+                    <p>Our AI crawls the web to find the most relevant articles and processes them using advanced NLP techniques.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4" data-aos="fade-right" data-aos-delay="100">
+                <div class="step-card p-4 bg-white rounded-lg shadow-sm">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="step-number me-3">3</div>
+                        <h3 class="mb-0">Translation & Summarization</h3>
+                    </div>
+                    <p>Articles are automatically translated to your preferred language and summarized for quick reading.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4" data-aos="fade-left" data-aos-delay="100">
+                <div class="step-card p-4 bg-white rounded-lg shadow-sm">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="step-number me-3">4</div>
+                        <h3 class="mb-0">Publish & Share</h3>
+                    </div>
+                    <p>Create beautiful news roundups that can be published directly to Hashnode with a single click.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Information Section -->
+<section class="info-section py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h2>Discover Trending News</h2>
+                <p class="lead">Stay ahead of the curve with SmartScrapAI's cutting-edge news aggregation technology.</p>
+                <ul class="list-unstyled mt-4">
+                    <li class="mb-3"><i class="fas fa-check-circle text-primary me-2"></i> Real-time news from trusted sources</li>
+                    <li class="mb-3"><i class="fas fa-check-circle text-primary me-2"></i> Customizable searches by topic and location</li>
+                    <li class="mb-3"><i class="fas fa-check-circle text-primary me-2"></i> AI-powered summaries save your time</li>
+                    <li class="mb-3"><i class="fas fa-check-circle text-primary me-2"></i> Translation into 10 major world languages</li>
+                </ul>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <img src="{% static 'news/img/news-illustration.png' %}" alt="News Illustration" class="img-fluid rounded shadow-sm">
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if recent_searches %}
+<section class="recent-searches py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4" data-aos="fade-up">Recent Searches</h2>
+        <div class="row">
+            {% for search in recent_searches %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100" data-aos="fade-up" data-aos-delay="{{ forloop.counter|multiply:100 }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ search.query }}</h5>
+                        <p class="card-text text-muted">
+                            <i class="fas fa-map-marker-alt me-2"></i> {{ search.location|default:"Worldwide" }}
+                        </p>
+                        <p class="card-text text-muted">
+                            <i class="fas fa-language me-2"></i> {{ search.language|get_item:languages }}
+                        </p>
+                        <p class="card-text text-muted">
+                            <i class="fas fa-clock me-2"></i> {{ search.created_at|date:"M d, Y" }}
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="?query={{ search.query|urlencode }}&location={{ search.location|urlencode }}&language={{ search.language }}" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-search me-2"></i> Search Again
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<style>
+    .step-number {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+    
+    .step-card {
+        transition: all 0.3s ease;
+        border-radius: 15px;
+    }
+    
+    .step-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Add smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+{% endblock %}

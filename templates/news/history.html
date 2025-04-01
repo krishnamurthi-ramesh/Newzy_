@@ -1,0 +1,240 @@
+{% extends 'news/base.html' %}
+{% load news_extras %}
+{% load static %}
+
+{% block title %}Search History - SmartScrapAI{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12" data-aos="fade-up">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                    <li class="breadcrumb-item active">Search History</li>
+                </ol>
+            </nav>
+            <h1 class="mb-3">
+                <i class="fas fa-history text-primary me-2"></i> Search History
+            </h1>
+        </div>
+    </div>
+    
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-4" id="historyTab" role="tablist" data-aos="fade-up">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="searches-tab" data-bs-toggle="tab" data-bs-target="#searches" type="button" role="tab" aria-controls="searches" aria-selected="true">
+                <i class="fas fa-search me-2"></i> Recent Searches
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="publications-tab" data-bs-toggle="tab" data-bs-target="#publications" type="button" role="tab" aria-controls="publications" aria-selected="false">
+                <i class="fas fa-newspaper me-2"></i> Published Roundups
+            </button>
+        </li>
+    </ul>
+    
+    <div class="tab-content" id="historyTabContent">
+        <!-- Searches Tab -->
+        <div class="tab-pane fade show active" id="searches" role="tabpanel" aria-labelledby="searches-tab">
+            {% if searches %}
+            <div class="table-responsive" data-aos="fade-up">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Topic</th>
+                            <th>Location</th>
+                            <th>Language</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for search in searches %}
+                        <tr class="search-row" data-aos="fade-up" data-aos-delay="{{ forloop.counter|multiply:50 }}">
+                            <td><strong>{{ search.query }}</strong></td>
+                            <td>{% if search.location %}{{ search.location }}{% else %}<span class="text-muted">Worldwide</span>{% endif %}</td>
+                            <td>{{ search.language|get_item:languages }}</td>
+                            <td>{{ search.created_at|date:"M d, Y H:i" }}</td>
+                            <td>
+                                <a href="?query={{ search.query|urlencode }}&location={{ search.location|urlencode }}&language={{ search.language }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-search me-1"></i> Search Again
+                                </a>
+                                <button class="btn btn-sm btn-outline-danger delete-search" data-search-id="{{ search.id }}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info" data-aos="fade-up">
+                <i class="fas fa-info-circle me-2"></i> No search history found. Try searching for some news topics!
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Publications Tab -->
+        <div class="tab-pane fade" id="publications" role="tabpanel" aria-labelledby="publications-tab">
+            {% if roundups %}
+            <div class="row">
+                {% for roundup in roundups %}
+                <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter|multiply:100 }}">
+                    <div class="card h-100 shadow-sm roundup-card">
+                        {% if roundup.cover_image_url %}
+                        <div class="card-img-container">
+                            <img src="{{ roundup.cover_image_url }}" class="card-img-top" alt="{{ roundup.title }}">
+                            <div class="img-overlay">
+                                <span class="ai-badge">AI-generated</span>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="card-img-container default-img">
+                            <div class="default-img-content">
+                                <i class="fas fa-newspaper fa-3x"></i>
+                                <div class="mt-2">News Roundup</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ roundup.title }}</h5>
+                            <div class="mb-2">
+                                <span class="badge bg-primary">{{ roundup.topic }}</span>
+                                {% if roundup.location %}
+                                <span class="badge bg-secondary">{{ roundup.location }}</span>
+                                {% endif %}
+                                <span class="badge bg-info">{{ roundup.language|get_item:languages }}</span>
+                            </div>
+                            <p class="card-text small text-muted">
+                                <i class="far fa-calendar-alt me-1"></i> {{ roundup.created_at|date:"M d, Y" }}
+                            </p>
+                            <p class="card-text">{{ roundup.description|truncatewords:20 }}</p>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{{ roundup.hashnode_url }}" target="_blank" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-external-link-alt me-1"></i> View on Hashnode
+                                </a>
+                                <button class="btn btn-sm btn-outline-danger delete-roundup" data-roundup-id="{{ roundup.id }}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-info" data-aos="fade-up">
+                <i class="fas fa-info-circle me-2"></i> No published roundups found. Create your first news roundup by searching for topics!
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    /* History page styling */
+    .search-row {
+        transition: all 0.3s ease;
+    }
+    
+    .search-row:hover {
+        background-color: rgba(var(--bs-primary-rgb), 0.05);
+    }
+    
+    .roundup-card {
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .roundup-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .card-img-container {
+        height: 160px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .card-img-top {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .roundup-card:hover .card-img-top {
+        transform: scale(1.05);
+    }
+    
+    .img-overlay {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    
+    .ai-badge {
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .default-img {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+    
+    .default-img-content {
+        text-align: center;
+    }
+</style>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle delete search buttons
+        const deleteSearchButtons = document.querySelectorAll('.delete-search');
+        deleteSearchButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const searchId = this.dataset.searchId;
+                if (confirm('Are you sure you want to delete this search from your history?')) {
+                    // Here you would send a request to delete the search
+                    console.log(`Deleting search with ID: ${searchId}`);
+                    // For demo purposes, remove the row from the UI
+                    this.closest('tr').remove();
+                }
+            });
+        });
+        
+        // Handle delete roundup buttons
+        const deleteRoundupButtons = document.querySelectorAll('.delete-roundup');
+        deleteRoundupButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const roundupId = this.dataset.roundupId;
+                if (confirm('Are you sure you want to delete this published roundup?')) {
+                    // Here you would send a request to delete the roundup
+                    console.log(`Deleting roundup with ID: ${roundupId}`);
+                    // For demo purposes, remove the card from the UI
+                    this.closest('.col-md-6').remove();
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

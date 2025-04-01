@@ -1,0 +1,178 @@
+{% extends 'news/base.html' %}
+{% load news_extras %}
+{% load static %}
+
+{% block title %}{{ roundup.title }} - SmartScrapAI{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12" data-aos="fade-up">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'history' %}">History</a></li>
+                    <li class="breadcrumb-item active">Published Roundup</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8" data-aos="fade-up">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h1 class="card-title mb-3">{{ roundup.title }}</h1>
+                    <div class="d-flex flex-wrap mb-3">
+                        <span class="badge bg-primary me-2 mb-2">{{ roundup.topic }}</span>
+                        {% if roundup.location %}
+                        <span class="badge bg-secondary me-2 mb-2">{{ roundup.location }}</span>
+                        {% endif %}
+                        <span class="badge bg-info me-2 mb-2">{{ roundup.language|get_item:languages }}</span>
+                        <span class="badge bg-success me-2 mb-2">{{ roundup.article_count }} Articles</span>
+                    </div>
+                    <p class="text-muted mb-4">
+                        <i class="far fa-calendar-alt me-2"></i> Published on {{ roundup.created_at|date:"F d, Y" }}
+                    </p>
+                    <p class="lead">{{ roundup.description }}</p>
+                    
+                    <div class="mt-4 mb-3 d-flex justify-content-between">
+                        <a href="{% url 'history' %}" class="btn btn-outline-primary">
+                            <i class="fas fa-arrow-left me-2"></i> Back to History
+                        </a>
+                        {% if roundup.hashnode_url %}
+                        <a href="{{ roundup.hashnode_url }}" target="_blank" class="btn btn-success">
+                            <i class="fas fa-external-link-alt me-2"></i> View on Hashnode
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card shadow-sm" data-aos="fade-up" data-aos-delay="100">
+                <div class="card-body">
+                    <h2 class="mb-4">Roundup Content</h2>
+                    <div class="roundup-content markdown-content">
+                        {{ roundup.content|linebreaks }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Share This Roundup</h4>
+                    <p class="card-text">Share this news roundup with your friends and colleagues.</p>
+                    <div class="d-grid gap-2">
+                        <button id="copy-link-btn" class="btn btn-outline-primary">
+                            <i class="fas fa-link me-2"></i> Copy Link
+                        </button>
+                        {% if roundup.hashnode_url %}
+                        <a href="https://twitter.com/intent/tweet?url={{ roundup.hashnode_url|urlencode }}&text={{ roundup.title|urlencode }}" 
+                           target="_blank" class="btn btn-outline-info">
+                            <i class="fab fa-twitter me-2"></i> Share on Twitter
+                        </a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ roundup.hashnode_url|urlencode }}" 
+                           target="_blank" class="btn btn-outline-primary">
+                            <i class="fab fa-linkedin me-2"></i> Share on LinkedIn
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card shadow-sm" data-aos="fade-up" data-aos-delay="300">
+                <div class="card-body">
+                    <h4 class="card-title">Related Topics</h4>
+                    <p class="card-text">Explore more news on related topics.</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'index' %}?query={{ roundup.topic|urlencode }}" class="btn btn-outline-primary">
+                            <i class="fas fa-search me-2"></i> Search for "{{ roundup.topic }}"
+                        </a>
+                        {% if roundup.location %}
+                        <a href="{% url 'index' %}?location={{ roundup.location|urlencode }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-map-marker-alt me-2"></i> News from {{ roundup.location }}
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .markdown-content {
+        font-family: var(--bs-font-sans-serif);
+        line-height: 1.6;
+    }
+    
+    .markdown-content h1 {
+        font-size: 2rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+    }
+    
+    .markdown-content h2 {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+        color: var(--primary-color);
+    }
+    
+    .markdown-content p {
+        margin-bottom: 1rem;
+    }
+    
+    .markdown-content a {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+    
+    .markdown-content a:hover {
+        text-decoration: underline;
+    }
+    
+    .markdown-content strong {
+        font-weight: 600;
+    }
+    
+    .markdown-content hr {
+        margin: 2rem 0;
+        border-top: 1px solid rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle copy link button
+        const copyLinkBtn = document.getElementById('copy-link-btn');
+        if (copyLinkBtn) {
+            copyLinkBtn.addEventListener('click', function() {
+                const url = window.location.href;
+                navigator.clipboard.writeText(url).then(function() {
+                    // Change button text temporarily
+                    const originalText = copyLinkBtn.innerHTML;
+                    copyLinkBtn.innerHTML = '<i class="fas fa-check me-2"></i> Link Copied!';
+                    copyLinkBtn.classList.remove('btn-outline-primary');
+                    copyLinkBtn.classList.add('btn-success');
+                    
+                    // Reset button after 2 seconds
+                    setTimeout(function() {
+                        copyLinkBtn.innerHTML = originalText;
+                        copyLinkBtn.classList.remove('btn-success');
+                        copyLinkBtn.classList.add('btn-outline-primary');
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('Could not copy text: ', err);
+                    alert('Failed to copy link. Please try again.');
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}

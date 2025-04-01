@@ -1,0 +1,296 @@
+{% extends 'news/base.html' %}
+{% load news_extras %}
+{% load static %}
+
+{% block title %}Search Results - SmartScrapAI{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12" data-aos="fade-up">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                    <li class="breadcrumb-item active">Search Results</li>
+                </ol>
+            </nav>
+            <h1 class="mb-3">Search Results</h1>
+            <div class="search-info p-3 bg-light rounded-lg mb-4">
+                <p class="lead mb-0">
+                    <i class="fas fa-search me-2 text-primary"></i> Showing results for <strong>"{{ query }}"</strong>
+                    {% if location %} <i class="fas fa-map-marker-alt mx-2 text-primary"></i> in <strong>{{ location }}</strong>{% endif %}
+                    {% if language != 'en' %} <i class="fas fa-language mx-2 text-primary"></i> (Translated to <strong>{{ language_name }}</strong>){% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    {% if articles %}
+    <div class="row">
+        {% for article in articles %}
+        <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter|multiply:100 }}">
+            <div class="card h-100">
+                <div class="card-header">
+                    <div class="form-check">
+                        <input class="form-check-input article-checkbox" type="checkbox" id="article-{{ forloop.counter }}">
+                        <label class="form-check-label" for="article-{{ forloop.counter }}">
+                            Select for publishing
+                        </label>
+                    </div>
+                </div>
+                {% if article.image_url %}
+                <img src="{{ article.image_url }}" class="card-img-top article-image" alt="{{ article.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title article-title">{{ article.title }}</h5>
+                    {% if article.text == "This article could not be retrieved. You can visit the original source for the complete information." %}
+                    <div class="alert alert-warning mb-3">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        This article could not be retrieved. You can visit the original source for the complete information.
+                    </div>
+                    {% else %}
+                        {% if article.summary %}
+                        <p class="card-text article-summary">{{ article.summary }}</p>
+                        {% else %}
+                        <p class="card-text article-summary">{{ article.text|truncatewords:30 }}</p>
+                        {% endif %}
+                    {% endif %}
+                    <div class="article-meta mb-3">
+                        <p class="text-muted mb-1">
+                            <i class="fas fa-newspaper me-2"></i>
+                            <span class="article-source">{{ article.source }}</span>
+                        </p>
+                        {% if article.formatted_date %}
+                        <p class="text-muted mb-0">
+                            <i class="far fa-calendar-alt me-2"></i>
+                            <span class="article-date">{{ article.formatted_date }}</span>
+                        </p>
+                        {% endif %}
+                    </div>
+                    <a href="{{ article.url }}" target="_blank" class="btn btn-outline-primary article-link">
+                        <i class="fas fa-external-link-alt me-2"></i> Visit Original Source
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row mt-4" data-aos="fade-up">
+        <div class="col-12">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h4 class="card-title">Create News Roundup</h4>
+                    <p class="card-text">Select articles to include in your news roundup and publish it to Hashnode.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button id="select-all-btn" class="btn btn-outline-primary">
+                            <i class="fas fa-check-square me-2"></i> Select All
+                        </button>
+                        <div>
+                            <div id="publish-success" class="text-success me-3" style="display: none;"></div>
+                            <a id="publish-link" class="btn btn-outline-success me-2" style="display: none;" target="_blank">
+                                View Published Article
+                            </a>
+                            <button id="publish-button" class="btn btn-success">
+                                <i class="fas fa-paper-plane me-2"></i> Publish Selected
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info" data-aos="fade-up">
+        <i class="fas fa-info-circle me-2"></i> No articles found for your search query. Please try a different search.
+    </div>
+    {% endif %}
+
+    <div class="row mt-4">
+        <div class="col-12" data-aos="fade-up">
+            <a href="{% url 'index' %}" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left me-2"></i> Back to Search
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .search-info {
+        border-left: 4px solid var(--primary-color);
+    }
+    
+    .article-card {
+        transition: transform 0.3s ease;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        will-change: transform;
+    }
+    
+    .article-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .card-img-container {
+        height: 200px;
+        overflow: hidden;
+        contain: strict;
+    }
+    
+    .card-img-top {
+        height: 100%;
+        object-fit: cover;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
+    
+    .card-title {
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+
+    /* Add performance optimizations */
+    .card {
+        contain: content;
+    }
+    
+    .card-body {
+        contain: content;
+    }
+    
+    /* Optimize animations */
+    @media (prefers-reduced-motion: reduce) {
+        .article-card {
+            transition: none;
+        }
+    }
+    
+    /* Optimize loading */
+    .article-image {
+        loading: lazy;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        // Cache DOM elements
+        const $selectAllBtn = $('#select-all-btn');
+        const $publishBtn = $('#publish-button');
+        const $publishSuccess = $('#publish-success');
+        const $publishLink = $('#publish-link');
+        const $articleCheckboxes = $('.article-checkbox');
+        
+        // Debounce function for performance
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Optimize select all functionality
+        $selectAllBtn.click(function() {
+            const isChecked = !$(this).data('checked');
+            $articleCheckboxes.prop('checked', isChecked);
+            $(this).data('checked', isChecked);
+            $(this).html(isChecked ? 
+                '<i class="fas fa-times-square me-2"></i> Deselect All' : 
+                '<i class="fas fa-check-square me-2"></i> Select All'
+            );
+        });
+
+        // Optimize article data collection
+        function getSelectedArticles() {
+            const selectedArticles = [];
+            $articleCheckboxes.filter(':checked').each(function() {
+                const $card = $(this).closest('.card');
+                selectedArticles.push({
+                    title: $card.find('.article-title').text().trim(),
+                    text: $card.find('.article-summary').text().trim(),
+                    summary: $card.find('.article-summary').text().trim(),
+                    source: $card.find('.article-source').text().trim(),
+                    url: $card.find('.article-link').attr('href'),
+                    image_url: $card.find('.article-image').attr('src') || '',
+                    publish_date: $card.find('.article-date').text().trim(),
+                    authors: []
+                });
+            });
+            return selectedArticles;
+        }
+
+        // Optimize publish functionality with proper error handling
+        $publishBtn.click(debounce(async function() {
+            const selectedArticles = getSelectedArticles();
+            
+            if (selectedArticles.length === 0) {
+                alert('Please select at least one article to publish.');
+                return;
+            }
+
+            try {
+                $publishBtn.prop('disabled', true)
+                    .html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Publishing...');
+                
+                $publishSuccess.hide();
+                $publishLink.hide();
+
+                const response = await fetch('{% url "publish" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({
+                        articles: selectedArticles,
+                        topic: '{{ query }}',
+                        location: '{{ location }}',
+                        language: '{{ language }}'
+                    })
+                });
+
+                const data = await response.json();
+                console.log('Publication response:', data);  // Debug log
+                
+                // Consider the operation successful if we get a success flag, even without URL
+                if (data.success) {
+                    // Clear any previous error messages
+                    console.log('Publication successful:', data);
+                    $publishSuccess.removeClass('text-danger').addClass('text-success')
+                        .text('Published successfully!').show();
+                    
+                    if (data.article_url) {
+                        $publishLink.attr('href', data.article_url)
+                            .text('View Published Article')
+                            .show();
+                    }
+                    
+                    // Reset UI state
+                    $articleCheckboxes.prop('checked', false);
+                    $selectAllBtn.data('checked', false)
+                        .html('<i class="fas fa-check-square me-2"></i> Select All');
+                } else {
+                    // If we have an error message from the server, use it
+                    throw new Error(data.error || 'Failed to publish articles. The article may still be processing.');
+                }
+            } catch (error) {
+                console.error('Publishing error:', error);
+                // Show error message but make it less alarming
+                $publishSuccess.removeClass('text-success').addClass('text-danger')
+                    .text(error.message || 'There was an issue with the publishing process. The article may still be published after processing.')
+                    .show();
+            } finally {
+                $publishBtn.prop('disabled', false)
+                    .html('<i class="fas fa-paper-plane me-2"></i> Publish Selected');
+            }
+        }, 300)); // Debounce for 300ms
+    });
+</script>
+{% endblock %}

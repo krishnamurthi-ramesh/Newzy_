@@ -1,0 +1,347 @@
+{% extends 'news/base.html' %}
+{% load static %}
+
+{% block title %}Documentation - Newzy{% endblock %}
+
+{% block content %}
+<div class="container documentation-container py-5">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3">
+            <div class="doc-sidebar position-sticky" style="top: 2rem;">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="mb-3 border-bottom pb-2">Newzy Documentation</h5>
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link active" id="intro-tab" data-bs-toggle="pill" href="#intro" role="tab" aria-controls="intro" aria-selected="true">Introduction</a>
+                            <a class="nav-link" id="getting-started-tab" data-bs-toggle="pill" href="#getting-started" role="tab" aria-controls="getting-started" aria-selected="false">Getting Started</a>
+                            <a class="nav-link" id="features-tab" data-bs-toggle="pill" href="#features" role="tab" aria-controls="features" aria-selected="false">Features</a>
+                            <a class="nav-link" id="api-tab" data-bs-toggle="pill" href="#api" role="tab" aria-controls="api" aria-selected="false">API Reference</a>
+                            <a class="nav-link" id="faq-tab" data-bs-toggle="pill" href="#faq" role="tab" aria-controls="faq" aria-selected="false">FAQ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            <div class="card shadow-sm">
+                <div class="card-body p-lg-5">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <!-- Introduction -->
+                        <div class="tab-pane fade show active" id="intro" role="tabpanel" aria-labelledby="intro-tab">
+                            <h2>Introduction to Newzy</h2>
+                            <p class="lead">An intelligent news aggregation system powered by AI</p>
+                            
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i> Newzy is designed to help you stay informed with minimal effort by automatically finding, summarizing, and organizing relevant news articles.
+                            </div>
+                            
+                            <h4 class="mt-4">What is Newzy?</h4>
+                            <p>Newzy is a modern news aggregation platform that leverages artificial intelligence to provide personalized news experiences. The platform gathers articles from various sources across the web, processes them using advanced NLP techniques, and presents them in an organized, easy-to-digest format.</p>
+                            
+                            <h4 class="mt-4">Key Benefits</h4>
+                            <ul>
+                                <li><strong>Time-saving</strong> - Get the gist of news articles without reading the full content</li>
+                                <li><strong>Multilingual support</strong> - Breaking language barriers with automatic translation</li>
+                                <li><strong>Comprehensive coverage</strong> - Articles sourced from diverse publications</li>
+                                <li><strong>Personalization</strong> - Search for topics that matter to you</li>
+                                <li><strong>Publishing capabilities</strong> - Create and share news roundups</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Getting Started -->
+                        <div class="tab-pane fade" id="getting-started" role="tabpanel" aria-labelledby="getting-started-tab">
+                            <h2>Getting Started with Newzy</h2>
+                            <p class="lead">Learn how to use Newzy to stay updated with the latest news</p>
+                            
+                            <h4 class="mt-4">Basic Search</h4>
+                            <p>The most basic way to use Newzy is to search for news topics that interest you:</p>
+                            <ol>
+                                <li>Navigate to the home page</li>
+                                <li>Enter a topic in the search field (e.g., "climate change", "technology")</li>
+                                <li>Optionally specify a location to get region-specific news</li>
+                                <li>Select your preferred language for viewing the results</li>
+                                <li>Click "Search News" to get your results</li>
+                            </ol>
+                            
+                            <h4 class="mt-4">Reading Results</h4>
+                            <p>The search results page presents articles with:</p>
+                            <ul>
+                                <li><strong>Title</strong> - The headline of the article</li>
+                                <li><strong>Summary</strong> - AI-generated concise summary of the article's content</li>
+                                <li><strong>Source</strong> - The original publication source</li>
+                                <li><strong>Publication date</strong> - When the article was published</li>
+                                <li><strong>Action buttons</strong> - Links to read the full article, share, or bookmark</li>
+                            </ul>
+                            
+                            <h4 class="mt-4">Refining Search</h4>
+                            <p>Use the sidebar filters to refine your search results by:</p>
+                            <ul>
+                                <li><strong>Time Period</strong> - Filter by recency (24 hours, week, month, or year)</li>
+                                <li><strong>Sort Order</strong> - Arrange by relevance, date, or popularity</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Features -->
+                        <div class="tab-pane fade" id="features" role="tabpanel" aria-labelledby="features-tab">
+                            <h2 id="features-section">Newzy Features</h2>
+                            <p class="lead">Explore the powerful capabilities of Newzy</p>
+                            
+                            <div class="row mt-4">
+                                <div class="col-md-6 mb-4">
+                                    <div class="card h-100 border-0 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title" id="ai-summarization"><i class="fas fa-robot text-primary me-2"></i>AI Summarization</h5>
+                                            <p class="card-text">Newzy uses advanced natural language processing to generate concise, accurate summaries of news articles, saving you time while preserving the essential information.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-4">
+                                    <div class="card h-100 border-0 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title" id="translation"><i class="fas fa-language text-primary me-2"></i>Translation</h5>
+                                            <p class="card-text">Access news content in multiple languages with automatic translation capabilities, allowing you to read global news in your preferred language.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-4">
+                                    <div class="card h-100 border-0 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title" id="hashnode-publishing"><i class="fas fa-cloud-upload-alt text-primary me-2"></i>Hashnode Publishing</h5>
+                                            <p class="card-text">Create comprehensive news roundups based on your search results and publish them directly to Hashnode, complete with summaries and proper attribution.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-4">
+                                    <div class="card h-100 border-0 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title" id="search-history"><i class="fas fa-history text-primary me-2"></i>Search History</h5>
+                                            <p class="card-text">Keep track of your previous searches and published roundups with an organized history feature, making it easy to revisit topics or continue your research.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- API Reference -->
+                        <div class="tab-pane fade" id="api" role="tabpanel" aria-labelledby="api-tab">
+                            <h2>API Reference</h2>
+                            <p class="lead">Integrate Newzy's capabilities into your own applications</p>
+                            
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i> The Newzy API is currently in beta. Documentation and endpoints are subject to change.
+                            </div>
+                            
+                            <h4 class="mt-4">Authentication</h4>
+                            <p>All API requests require authentication using an API key. To obtain an API key, please contact <a href="mailto:kiccha1703@gmail.com">kiccha1703@gmail.com</a>.</p>
+                            
+                            <h4 class="mt-4">Available Endpoints</h4>
+                            
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <span class="badge bg-success me-2">GET</span> <code>/api/search/</code>
+                                </div>
+                                <div class="card-body">
+                                    <h5>Search for News Articles</h5>
+                                    <p>Retrieve news articles based on search criteria.</p>
+                                    
+                                    <h6 class="mt-3">Parameters:</h6>
+                                    <ul>
+                                        <li><code>query</code> (required) - Search topic</li>
+                                        <li><code>location</code> (optional) - Geographic location</li>
+                                        <li><code>language</code> (optional, default: en) - Result language</li>
+                                        <li><code>time_period</code> (optional, default: m) - Time period (d, w, m, y)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="card mb-4">
+                                <div class="card-header bg-light">
+                                    <span class="badge bg-primary me-2">POST</span> <code>/api/publish/</code>
+                                </div>
+                                <div class="card-body">
+                                    <h5>Publish News Roundup</h5>
+                                    <p>Create and publish a news roundup based on search results.</p>
+                                    
+                                    <h6 class="mt-3">Request Body:</h6>
+                                    <ul>
+                                        <li><code>title</code> (required) - Roundup title</li>
+                                        <li><code>description</code> (optional) - Roundup description</li>
+                                        <li><code>article_ids</code> (required) - Array of article IDs to include</li>
+                                        <li><code>language</code> (optional, default: en) - Publication language</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ -->
+                        <div class="tab-pane fade" id="faq" role="tabpanel" aria-labelledby="faq-tab">
+                            <h2>Frequently Asked Questions</h2>
+                            <p class="lead">Find answers to common questions about Newzy</p>
+                            
+                            <div class="accordion mt-4" id="faqAccordion">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Is Newzy free to use?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Yes, Newzy is currently free to use for all features. We may introduce premium features in the future, but the core functionality will remain free.
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTwo">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            How does the AI summarization work?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Newzy uses advanced natural language processing models, specifically transformer-based models like BART, to analyze the content of news articles and generate concise summaries that capture the key information. The system is designed to understand context, identify important points, and present them in a readable format.
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            What sources does Newzy use for news?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Newzy aggregates news from a wide range of reputable sources across the web. We don't limit ourselves to specific publications, which allows for diverse perspectives on any given topic. However, we do implement filtering to prioritize reliable news sources and reduce the presence of low-quality content.
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingFour">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                            How do I publish a news roundup to Hashnode?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            To publish a news roundup to Hashnode:
+                                            <ol>
+                                                <li>Perform a search on your topic of interest</li>
+                                                <li>On the results page, click the "Publish Roundup" button</li>
+                                                <li>Provide a title and optional description for your roundup</li>
+                                                <li>Click "Publish to Hashnode" to create your post</li>
+                                            </ol>
+                                            The system will automatically format the articles, include summaries, and provide proper attribution to the original sources.
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingFive">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                            Can I bookmark articles for later reading?
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Yes, you can bookmark articles by clicking the bookmark icon next to each article in the search results. Bookmarked articles are saved in your browser's local storage, allowing you to access them again even after closing the browser. Your bookmarks are private and only stored on your device.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.documentation-container {
+    min-height: 80vh;
+}
+
+.doc-sidebar .nav-link {
+    border-radius: 0.25rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    color: #495057;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.doc-sidebar .nav-link:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: #6366f1;
+}
+
+.doc-sidebar .nav-link.active {
+    background-color: #6366f1;
+    color: white;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: #6366f1;
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+}
+
+code {
+    background-color: #f8f9fa;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    color: #6366f1;
+}
+</style>
+
+<script>
+// Handle anchor links and activate the correct tab
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to activate tab based on hash
+    function activateTabFromHash() {
+        const hash = window.location.hash;
+        if (hash) {
+            // Special handling for specific feature sections
+            if (hash === '#ai-summarization' || hash === '#translation' || 
+                hash === '#hashnode-publishing' || hash === '#search-history') {
+                // Activate the features tab
+                document.getElementById('features-tab').click();
+                
+                // Scroll to the specific feature after a short delay to ensure the tab is active
+                setTimeout(function() {
+                    const element = document.querySelector(hash);
+                    if (element) {
+                        element.scrollIntoView({behavior: 'smooth'});
+                    }
+                }, 300);
+            } else {
+                // Try to find a tab that corresponds to the hash
+                const tabId = hash.substring(1) + '-tab';
+                const tab = document.getElementById(tabId);
+                if (tab) {
+                    tab.click();
+                }
+            }
+        }
+    }
+
+    // Initial activation based on URL hash
+    activateTabFromHash();
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', activateTabFromHash);
+});
+</script>
+{% endblock %}
