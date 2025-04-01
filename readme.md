@@ -12,6 +12,7 @@ SmartScrapAI is an intelligent news aggregation system that automatically collec
 - 🔄 Real-time Processing: Immediate article fetching and processing
 - 📱 Responsive UI: Modern and user-friendly interface
 - 🚀 One-Click Publishing: Direct integration with publishing platforms
+- cache to handle Previous searched results for faster results/response.
 
 ## Contributors
 - **Krishnamurthi** - Core Developer
@@ -98,11 +99,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contact
 
 For support or inquiries:
-- **Gaurav Singh**
-  - Email: gauravsinghiiitk@gmail.com
-  - LinkedIn: [Gaurav Singh](https://www.linkedin.com/in/gaurav-singh-7a1472268/)
-
-- **Krishnamurthy**
+- **Krishnamurthi**
   - Email: kiccha1703@gmail.com
   - LinkedIn: [Krishna Murthi](https://www.linkedin.com/in/krishna9003762619murthi)
 
