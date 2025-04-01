@@ -14,8 +14,7 @@ SmartScrapAI is an intelligent news aggregation system that automatically collec
 - 🚀 One-Click Publishing: Direct integration with publishing platforms
 
 ## Contributors
-- **Gaurav Singh** - Lead Developer
-- **Krishnamurthy** - Core Developer
+- **Krishnamurthi** - Core Developer
 
 ## Tech Stack
 - **Backend**: Python, Flask
