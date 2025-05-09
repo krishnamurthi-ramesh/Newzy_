@@ -348,7 +348,7 @@ class HashnodePublisher:
 # ------------------- Streamlit App -------------------
 def main():
     st.set_page_config(
-        page_title="QuickNews – Fast, Reliable, Personalized",
+        page_title="Newzy – Fast, Reliable, Personalized",
         page_icon="📡",
         layout="wide"
     )
