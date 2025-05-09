@@ -1,4 +1,4 @@
-# SmartScrapAI - Autonomous News Aggregation System
+# Newzy- Autonomous News Aggregation System
 
 ## Overview
 SmartScrapAI is an intelligent news aggregation system that automatically collects, processes, and publishes news articles. It uses AI to search, summarize, and create comprehensive news roundups on specific topics.
